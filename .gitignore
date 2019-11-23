@@ -1,0 +1,12 @@
+*.test
+*.out
+*.log
+
+# Build output
+alien-invasion
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
