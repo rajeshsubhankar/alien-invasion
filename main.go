@@ -35,5 +35,7 @@ func main() {
 	m.SpreadAliens(numOfAliens)
 
 	// Let the aliens invade the map
+	m.Invade(maxMoves)
+
 	// Print result
 }
