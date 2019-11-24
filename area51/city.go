@@ -1,4 +1,4 @@
-package main
+package area51
 
 // City defines the name, list of currently
 // occupied aliens and the direction map for

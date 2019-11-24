@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 	"os"
+
+	"github.com/rajeshsubhankar/alien-invasion/area51"
 )
 
 var (
@@ -25,7 +27,7 @@ func main() {
 	parseArguments()
 
 	// Create a new map from the file
-	m, err := newMapFromFile(fileName)
+	m, err := area51.NewMapFromFile(fileName)
 	if err != nil {
 		log.Fatalln("Error: Unable to create a map from the file.", err)
 		os.Exit(1)

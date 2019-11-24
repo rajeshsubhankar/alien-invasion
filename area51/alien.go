@@ -1,4 +1,4 @@
-package main
+package area51
 
 // Alien defines the name and the
 // currently occupied city

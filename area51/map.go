@@ -1,4 +1,4 @@
-package main
+package area51
 
 import (
 	"bufio"
@@ -23,8 +23,8 @@ func newEmptyMap() *Map {
 	}
 }
 
-// Create a new map from a file
-func newMapFromFile(fileName string) (*Map, error) {
+// NewMapFromFile will create a new map from a file
+func NewMapFromFile(fileName string) (*Map, error) {
 	m := newEmptyMap()
 
 	f, err := os.Open(fileName)
@@ -77,7 +77,7 @@ func (m *Map) SpreadAliens(numberOfAliens uint) {
 
 	for i := uint(0); i < numberOfAliens; i++ {
 		// Select a random city to send this alien
-		c := m.RandomCity(r)
+		c := m.randomCity(r)
 		a := &Alien{
 			name:        i,
 			currentCity: c.name,
@@ -89,8 +89,8 @@ func (m *Map) SpreadAliens(numberOfAliens uint) {
 	m.aliens = aliens
 }
 
-// RandomCity will return any pseudo-random city from the map
-func (m *Map) RandomCity(r *rand.Rand) *City {
+// randomCity will return any pseudo-random city from the map
+func (m *Map) randomCity(r *rand.Rand) *City {
 	var cities []string
 	for city := range m.cities {
 		cities = append(cities, city)
@@ -118,17 +118,17 @@ func (m *Map) Invade(maxMoves uint) {
 
 		// Move each alien by one step
 		for _, a := range m.aliens {
-			m.MoveAlien(a)
+			m.moveAlien(a)
 		}
 
 		// Delete the destroyed cities and dead aliens
-		m.CleanUp()
+		m.cleanUp()
 	}
 }
 
-// MoveAlien will attempt to move the alien from the currently
+// moveAlien will attempt to move the alien from the currently
 // occupied city to the next available neighbouring city
-func (m *Map) MoveAlien(a *Alien) {
+func (m *Map) moveAlien(a *Alien) {
 	if c, ok := m.cities[a.currentCity]; ok {
 		// Move in the first available direction
 		// NOTE: It will be counted as a valid move even if there
@@ -149,21 +149,24 @@ func (m *Map) MoveAlien(a *Alien) {
 	}
 }
 
-// CleanUp will try to clean the map based on
+// cleanUp will try to clean the map based on
 // the alien invasion rule set
-func (m *Map) CleanUp() {
+func (m *Map) cleanUp() {
 	// If a city is currently occupied by >= 2 aliens, destroy it
 	for cityName, c := range m.cities {
 		if len(c.currentAliens) >= 2 {
 			// Remove all the links which are pointing to this city
-			m.DeepClean(cityName)
+			m.deepClean(cityName)
 
 			// Print fight message
-			// @dev Update formatting
-			fmt.Println(cityName, "has been destroyed by aliens ", c.currentAliens, "!")
+			fmt.Print(cityName, " has been destroyed by alien ", c.currentAliens[0])
+			for _, alien := range c.currentAliens[1:] {
+				fmt.Print(" and alien ", alien)
+			}
+			fmt.Println("!")
 
 			// Remove the dead aliens
-			m.RemoveAliensFromMap(c.currentAliens)
+			m.removeAliensFromMap(c.currentAliens)
 
 			// Finally remove the dead city
 			delete(m.cities, cityName)
@@ -171,9 +174,9 @@ func (m *Map) CleanUp() {
 	}
 }
 
-// DeepClean will erase the city from all other neighbouring
+// deepClean will erase the city from all other neighbouring
 // city if they have any outward connection towards this city
-func (m *Map) DeepClean(cityName string) {
+func (m *Map) deepClean(cityName string) {
 	for _, c := range m.cities {
 		for dir, dest := range c.direction {
 			if dest == cityName {
@@ -183,8 +186,8 @@ func (m *Map) DeepClean(cityName string) {
 	}
 }
 
-// RemoveAliensFromMap will erase all the dead aliens from the map
-func (m *Map) RemoveAliensFromMap(a []uint) {
+// removeAliensFromMap will erase all the dead aliens from the map
+func (m *Map) removeAliensFromMap(a []uint) {
 	for _, alien := range a {
 		delete(m.aliens, alien)
 	}
