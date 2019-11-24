@@ -38,4 +38,5 @@ func main() {
 	m.Invade(maxMoves)
 
 	// Print result
+	m.Print()
 }

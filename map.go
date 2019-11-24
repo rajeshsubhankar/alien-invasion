@@ -189,3 +189,18 @@ func (m *Map) RemoveAliensFromMap(a []uint) {
 		delete(m.aliens, alien)
 	}
 }
+
+// Print will display the final status of the map
+// similar to the input file
+func (m *Map) Print() {
+	for _, c := range m.cities {
+		// Do not print cities with no outward connection
+		if len(c.direction) != 0 {
+			fmt.Print(c.name, " ")
+			for dir, dest := range c.direction {
+				fmt.Print(dir, "=", dest, " ")
+			}
+			fmt.Println("")
+		}
+	}
+}
