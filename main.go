@@ -25,13 +25,15 @@ func main() {
 	parseArguments()
 
 	// Create a new map from the file
-	_, err := newMapFromFile(fileName)
+	m, err := newMapFromFile(fileName)
 	if err != nil {
 		log.Fatalln("Error: Unable to create a map from the file.", err)
 		os.Exit(1)
 	}
 
 	// Create and spread aliens
+	m.SpreadAliens(numOfAliens)
+
 	// Let the aliens invade the map
 	// Print result
 }

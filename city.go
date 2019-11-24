@@ -6,5 +6,5 @@ package main
 type City struct {
 	name          string
 	direction     map[string]string
-	currentAliens []int
+	currentAliens []uint
 }
