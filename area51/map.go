@@ -107,12 +107,12 @@ func (m *Map) Invade(maxMoves uint) {
 	// move each alien at max of 'maxMoves' times
 	for i := uint(0); i < maxMoves; i++ {
 		// If all the cities are destroyed, stop
-		if m.cities == nil {
+		if len(m.cities) == 0 {
 			break
 		}
 
 		// If all the aliens are dead, stop
-		if m.aliens == nil {
+		if len(m.aliens) == 0 {
 			break
 		}
 
