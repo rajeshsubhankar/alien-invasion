@@ -44,15 +44,15 @@ func NewMapFromFile(fileName string) (*Map, error) {
 		}
 		c.direction = make(map[string]string)
 
-		// If the city has at least one neighbouring city
+		// If the city has at least one neighboring city
 		if len(tokens) > 1 {
 			for _, path := range tokens[1:] {
 				dirAndDest := strings.Split(path, "=")
 
-				// Update the city's direction map with the neighbouring city
+				// Update the city's direction map with the neighboring city
 				c.direction[dirAndDest[0]] = dirAndDest[1]
 
-				// If the neighbouring city doesn't exist in the map, create one
+				// If the neighboring city doesn't exist in the map, create one
 				if m.cities[dirAndDest[1]] == nil {
 					m.cities[dirAndDest[1]] = &City{
 						name: dirAndDest[1],
@@ -127,14 +127,14 @@ func (m *Map) Invade(maxMoves uint) {
 }
 
 // moveAlien will attempt to move the alien from the currently
-// occupied city to the next available neighbouring city
+// occupied city to the next available neighboring city
 func (m *Map) moveAlien(a *Alien) {
 	if c, ok := m.cities[a.currentCity]; ok {
 		// Move in the first available direction
 		// NOTE: It will be counted as a valid move even if there
 		// is no valid path available (since the move was attempted)
 		for _, dest := range c.direction {
-			// Update neighbouring city's aliens list
+			// Update neighboring city's aliens list
 			destCity := m.cities[dest]
 			destCity.currentAliens = append(destCity.currentAliens, a.name)
 
@@ -174,7 +174,7 @@ func (m *Map) cleanUp() {
 	}
 }
 
-// deepClean will erase the city from all other neighbouring
+// deepClean will erase the city from all other neighboring
 // city if they have any outward connection towards this city
 func (m *Map) deepClean(cityName string) {
 	for _, c := range m.cities {
